@@ -34,7 +34,8 @@ public class testForm {
 //    ЧекБокс не проставлен: [role='presentation']
 
     private WebDriver driver;
-    WebElement form = driver.findElement(By.cssSelector("form.form_size_m.form_theme_alfa-on-white"));
+    WebElement form;
+
 
     @BeforeAll
     public static void setupAll() {
@@ -49,6 +50,7 @@ public class testForm {
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
         driver.get("http://localhost:9999/");
+        form = driver.findElement(By.cssSelector("form.form_size_m.form_theme_alfa-on-white"));
     }
 
     @AfterEach
@@ -60,7 +62,6 @@ public class testForm {
 
     @Test
     public void positiveTestForm() {
-
 
         form.findElement(By.cssSelector("[data-test-id='name'] [name='name']")).sendKeys("Иван Иванов");
         form.findElement(By.cssSelector("[data-test-id='phone'] [name='phone']")).sendKeys("+79999999999");
