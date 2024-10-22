@@ -86,6 +86,19 @@ public class testForm {
     }
 
     @Test
+    public void negativeTestFormOnlyDashAndWhitespacesInName() { // В поле Имя использованы только дефисы и пробелы.
+
+        form.findElement(By.cssSelector("[data-test-id='name'] [name='name']")).sendKeys("----    ");
+        form.findElement(By.cssSelector("[data-test-id='phone'] [name='phone']")).sendKeys("+79999999999");
+        form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
+        form.findElement(By.cssSelector("button[type='button']")).click();
+
+        String actualText = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
+        assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", actualText.trim());
+
+    }
+
+    @Test
     public void negativeTestFormEmptyName() { // Поле Имя пустое
 
         form.findElement(By.cssSelector("[data-test-id='name'] [name='name']")).sendKeys("");
@@ -99,7 +112,7 @@ public class testForm {
     }
 
     @Test
-    public void negativeTestFormWhitespaceInName() { // В поле Имя введены пробелы
+    public void negativeTestFormWhitespacesInName() { // В поле Имя введены пробелы
 
         form.findElement(By.cssSelector("[data-test-id='name'] [name='name']")).sendKeys("      ");
         form.findElement(By.cssSelector("[data-test-id='phone'] [name='phone']")).sendKeys("+79999999999");
