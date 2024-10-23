@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestForm {
 
@@ -132,7 +133,7 @@ public class TestForm {
         form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        String actualText = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String actualText = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actualText.trim());
 
     }
@@ -145,7 +146,7 @@ public class TestForm {
         form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        String actualText = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String actualText = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", actualText.trim());
 
     }
@@ -158,7 +159,7 @@ public class TestForm {
         form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        String actualText = driver.findElement(By.cssSelector("[data-test-id='phone'] .input__sub")).getText();
+        String actualText = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actualText.trim());
 
     }
@@ -171,9 +172,8 @@ public class TestForm {
 //        form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        WebElement actCheckBoxStatus = driver.findElement(By.cssSelector(".checkbox.input_invalid"));
         WebElement expCheckBoxStatus = driver.findElement(By.cssSelector(".checkbox.input_invalid"));
-        assertEquals(expCheckBoxStatus, actCheckBoxStatus);
+        assertTrue(expCheckBoxStatus.isDisplayed());
 
     }
 }
