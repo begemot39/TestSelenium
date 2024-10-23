@@ -14,25 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestForm {
 
-    // Селекторы:
-//    Форма - form.form_size_m.form_theme_alfa-on-white
-//    Имя - [data-test-id='name'] [name='name']
-//    Телефон - [data-test-id='phone'] [name='phone']
-//    ЧекБокс - [data-test-id='agreement']
-//    knopka - button[type='button']
-//    Спан в конце - [data-test-id='order-success']
-//
-//    Текст - Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.
-//    java -jar ./artifacts/app-order.jar
-
-    // Негативные селекторы:
-//    Имя - [data-test-id='name'] .input__sub Введены недопустимы символы или поле оставлено пустым.
-//    Текст: Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы. - Недопустимые символы.
-//    Текст: Поле обязательно для заполнения. - Поле пустое.
-//    Телефон: [data-test-id='phone'] .input__sub
-//    Текст: Поле обязательно для заполнения - Поле пустое.
-//    Текст: Телефон указан неверно. Должно быть 11 цифр, например, +79012345678. - Введены некорректные символы.
-//    ЧекБокс не проставлен: [role='presentation']
 
     private WebDriver driver;
     public WebElement form;
@@ -81,23 +62,23 @@ public class TestForm {
         form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        String actualText = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
+        String actualText = driver.findElement(By.cssSelector(".input_invalid[data-test-id='name'] .input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", actualText.trim());
 
     }
 
-//    @Test
-//    public void negativeTestFormOnlyDashAndWhitespacesInName() { // В поле Имя использованы только дефисы и пробелы.
-//
-//        form.findElement(By.cssSelector("[data-test-id='name'] [name='name']")).sendKeys("----    ");
-//        form.findElement(By.cssSelector("[data-test-id='phone'] [name='phone']")).sendKeys("+79999999999");
-//        form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
-//        form.findElement(By.cssSelector("button[type='button']")).click();
-//
-//        String actualText = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
-//        assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", actualText.trim());
-//
-//    }
+    @Test
+    public void negativeTestFormOnlyDashAndWhitespacesInName() { // В поле Имя использованы только дефисы и пробелы.
+
+        form.findElement(By.cssSelector("[data-test-id='name'] [name='name']")).sendKeys("----    ");
+        form.findElement(By.cssSelector("[data-test-id='phone'] [name='phone']")).sendKeys("+79999999999");
+        form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
+        form.findElement(By.cssSelector("button[type='button']")).click();
+
+        String actualText = driver.findElement(By.cssSelector(".input_invalid[data-test-id='name'] .input__sub")).getText();
+        assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", actualText.trim());
+
+    }
 
     @Test
     public void negativeTestFormEmptyName() { // Поле Имя пустое
@@ -107,7 +88,7 @@ public class TestForm {
         form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        String actualText = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
+        String actualText = driver.findElement(By.cssSelector(".input_invalid[data-test-id='name'] .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", actualText.trim());
 
     }
@@ -120,7 +101,7 @@ public class TestForm {
         form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        String actualText = driver.findElement(By.cssSelector("[data-test-id='name'] .input__sub")).getText();
+        String actualText = driver.findElement(By.cssSelector(".input_invalid[data-test-id='name'] .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", actualText.trim());
 
     }
@@ -133,7 +114,7 @@ public class TestForm {
         form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        String actualText = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
+        String actualText = driver.findElement(By.cssSelector(".input_invalid[data-test-id='phone'] .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actualText.trim());
 
     }
@@ -146,20 +127,20 @@ public class TestForm {
         form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        String actualText = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
+        String actualText = driver.findElement(By.cssSelector(".input_invalid[data-test-id='phone'] .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", actualText.trim());
 
     }
 
     @Test
-    public void negativeTestFormPhoneNotElevenNumber() { // Поле Телефон пустое
+    public void negativeTestFormPhoneNotElevenNumber() { // В поле Телефон не 11 цифр
 
         form.findElement(By.cssSelector("[data-test-id='name'] [name='name']")).sendKeys("Иван Иванов");
         form.findElement(By.cssSelector("[data-test-id='phone'] [name='phone']")).sendKeys("+799999999");
         form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
-        String actualText = driver.findElement(By.cssSelector("[data-test-id='phone'].input_invalid .input__sub")).getText();
+        String actualText = driver.findElement(By.cssSelector(".input_invalid[data-test-id='phone'] .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", actualText.trim());
 
     }
@@ -169,7 +150,6 @@ public class TestForm {
 
         form.findElement(By.cssSelector("[data-test-id='name'] [name='name']")).sendKeys("Иван Иванов");
         form.findElement(By.cssSelector("[data-test-id='phone'] [name='phone']")).sendKeys("+79999999999");
-//        form.findElement(By.cssSelector("[data-test-id='agreement']")).click();
         form.findElement(By.cssSelector("button[type='button']")).click();
 
         WebElement expCheckBoxStatus = driver.findElement(By.cssSelector(".checkbox.input_invalid"));
